@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+	<title>Mini Digitron</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		body{
+			font-family: sans-serif;
+			padding: 0;
+			margin: 0;
+			background: #00b2bf;
+			color: white;
+		}
+		#wrapper {
+			width: 1000px;
+			margin: 70px auto 0;
+			background: rgba(0,0,0,0.8);
+			height: 500px;
+			display: grid;
+			padding: 20px;
+			grid-template-rows: repeat(3, auto);
+			grid-template-columns: repeat(4,231px);
+			grid-gap: 13px;
+			border-radius: 25px;
+		}
+		
+		.box {
+			height: 200px;
+			text-align: center;
+			font-size: 1.2em;
+			font-weight: bolder;
+		}
+		
+		h1 {
+			grid-column: 1/5;
+			padding: 0;
+			margin: 0 0 20px 0;
+			text-align: center;
+			height: 20%;
+		}
+
+		.box.result {
+			grid-column: 1/5;
+			color: #00b2bf;
+			font-weight: bold;
+			font-size: 2em;
+		}
+
+		.result .rez {
+			color:white;
+			font-weight: bolder;
+		}
+		
+		.red {
+			color:#f22439;
+		}
+		.box input , .box select{
+			height:60px;
+			width: 111px;
+			background:black;
+			color: #00b2bf;
+			text-align: center;
+			font-size: 1.3em;
+			outline:none;
+			border: 2px solid #00b2bf;
+			border-radius: 10px;
+		}
+
+		.box select {
+			width: 60px;
+			padding: 10px;
+		}
+		button {
+			height:60px;
+			width: 140px;
+			margin: 50px auto;
+			text-align: center;
+			background:#00b2bf;
+			border:2px solid black;
+			font-weight: bold;
+			font-size: 0.9em;
+			outline: none;
+			border-radius: 5px;
+			padding: 10px;
+		}
+
+		button:hover {
+			height:68px;
+			width: 148px;
+			margin: 46px auto;
+			color:#00b2bf;
+			background: white;
+			border: 3px solid #00b2bf;
+		}
+
+		button:active {
+			height:60px;
+			width: 140px;
+			margin: 50px auto;
+			color:#00b2bf;
+			background: black;
+			border: 3px solid #00b2bf;
+		}
+
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrapper">
+		<h1>Program za obavljanje osnovnih aritmetickih operacija</h1>
+		<div class="box">
+			<p>Unesite prvi broj:</p>
+			<input value="" type="number" name="prviBroj" id="prviBroj">
+		</div>
+		<div class="box">
+			<p>Izaberite operaciju!</p>
+			<select id="operator">
+				<option value="plus">+</option>
+				<option value="minus">-</option>
+				<option value="times">&times;</option>
+				<option value="divide">&divide;</option>
+			</select>
+			
+		</div>
+		<div class="box">
+			<p>Unesite drugi broj:</p>
+			<input value="" type="number" name="drugiBroj" id="drugiBroj">
+			
+		</div>
+		<div class="box">
+			<button id="racunaj">IZRAČUNAJ</button>
+		</div>
+		<div class="box result">
+			<p id="message"></p>
+		</div>
+	</div>
+
+
+
+
+	<script type="text/javascript">
+		var rez=document.getElementById('racunaj');
+		var prvi="";
+		var drugi="";
+		var znak =document.getElementById('operator');
+		rez.onclick= function() {
+			var odabran =znak.options[znak.selectedIndex].value;
+			prvi = document.getElementById('prviBroj').value;
+			drugi =document.getElementById('drugiBroj').value;
+			
+			var ispis=document.getElementById("message");
+
+			function sabiranje(a,x,b){
+				var rezultat=parseInt(a)+parseInt(b);
+				ispis.innerHTML=a+" + "+b+" = <span class='rez'> "+rezultat + "</span>";
+
+			}
+
+			function oduzimanje(a,x,b){
+				var rezultat=parseInt(a)-parseInt(b);
+				ispis.innerHTML=a+" - "+b+" = <span class='rez'> "+rezultat + "</span>";
+			}
+
+			function deljenje(a,x,b){
+				if (parseInt(b)===0)
+				{
+					document.getElementById("message").innerHTML="<span class='red'>Deljenje nulom nije moguće!!!</span>";
+				}
+					else
+					{
+						
+						if ((parseInt(a)%parseInt(b))>0)
+						{
+							var rezultat=parseInt(a)/parseInt(b);
+							ceoBroj=parseInt(rezultat);
+							ostatak=parseInt(a)%parseInt(b);
+							ispis.innerHTML=a+" &divide; "+b+" = <span class='rez'> "+ceoBroj + "</span> sa ostatkom <span class='rez'>"+ ostatak+"</span>,<br> <span style='font-size:1em'>odnosno "+ rezultat+"</span>";
+						} 
+							else
+							{
+								var rezultat=parseInt(a)/parseInt(b);
+								ispis.innerHTML=a+" &divide; "+b+" = <span class='rez'> "+rezultat + "</span>";
+							}
+						
+					}
+			}
+
+			function mnozenje(a,x,b){
+				var rezultat=parseInt(a)*parseInt(b);
+				ispis.innerHTML=a+" &times; "+b+" = <span class='rez'> "+rezultat + "</span>";
+			}
+
+				if (prvi==="" && drugi==="")
+				{
+					document.getElementById("message").innerHTML="<span class='red'>Unesite brojeve!!!</span>";
+				}
+					else if (prvi==="" && drugi!=="")
+					{
+						document.getElementById("message").innerHTML="<span class='red'>Unesite prvi broj!!!</span>";
+					}
+						else if(prvi!=="" && drugi==="")
+						{
+							document.getElementById("message").innerHTML="<span class='red'>Unesite drugi broj!!!</span>";
+						}
+							else
+							{
+								switch(odabran)
+								{
+									case 'divide':
+									deljenje(prvi,operator,drugi);
+									break;
+									
+									case 'times':
+									mnozenje(prvi,operator,drugi);
+									break;
+
+									case 'plus':
+									sabiranje(prvi,operator,drugi);
+									break;
+
+									case 'minus':
+									oduzimanje(prvi,operator,drugi);
+
+									break;
+									default:
+										document.getElementById("message").innerHTML="<span class='red'>Izaberite računsku operaciju!!!</span>";
+									break;
+								}
+							}
+				
+			
+		};
+
+
+	</script>
+</body>
+</html>
